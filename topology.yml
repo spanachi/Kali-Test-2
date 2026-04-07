@@ -27,7 +27,7 @@ routers:
 networks:
   - name: network-2
     cidr: 192.168.10.0/28
-    accessible: true
+    accessible_by_user: true
     hidden: false
 wan:
   name: network-1
