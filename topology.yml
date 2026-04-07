@@ -1,4 +1,5 @@
 name: demo-sandbox
+
 hosts:
   - name: host-1
     flavor: standard.small
@@ -8,6 +9,8 @@ hosts:
       mgmt_protocol: ssh
     hidden: false
     volumes: []
+    extra: {}
+
   - name: host-2
     flavor: standard.small
     base_box:
@@ -16,6 +19,8 @@ hosts:
       mgmt_protocol: ssh
     hidden: false
     volumes: []
+    extra: {}
+
 routers:
   - name: router-1
     flavor: standard.small
@@ -24,21 +29,34 @@ routers:
       mgmt_user: ubuntu
       mgmt_protocol: ssh
     hidden: false
+    extra: {}
+
+wan:
+  name: network-1
+  cidr: 192.168.10.16/30
+
 networks:
   - name: network-2
     cidr: 192.168.10.0/28
     accessible_by_user: true
     hidden: false
-wan:
-  name: network-1
-  cidr: 192.168.10.16/30
-net_mappings: []
-router_mappings: []
+
+net_mappings:
+  - host: host-1
+    network: network-2
+  - host: host-2
+    network: network-2
+
+router_mappings:
+  - router: router-1
+    network: network-2
+
 groups:
-  - name: example
+  - name: example1
     nodes:
       - host-2
       - router-1
+
 monitoring_targets:
   - node: host-2
     targets:
